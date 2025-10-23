@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Creation Details</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    async function loadCreation() {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
+      const res = await fetch('creations.json');
+      const creations = await res.json();
+      const c = creations.find(x => x.id == id);
+
+      if (!c) {
+        document.getElementById('content').innerHTML = "<p class='text-red-500 text-center'>Creation not found.</p>";
+        return;
+      }
+
+      document.getElementById('content').innerHTML = `
+        <div class="bg-white rounded-2xl shadow p-6">
+          <img src="${c.thumbnail}" alt="${c.name}" class="rounded-xl mb-4 w-full">
+          <h1 class="text-3xl font-bold mb-2">${c.name}</h1>
+          <p class="text-gray-600 mb-4">by <strong>${c.creator}</strong></p>
+          <p class="text-gray-700 mb-6">${c.description}</p>
+          <div class="flex gap-3">
+            <a href="${c.robloxLink}" target="_blank" class="bg-red-600 text-white px-5 py-2 rounded-lg hover:bg-red-700 transition">Play on Roblox</a>
+            <a href="index.html" class="bg-gray-200 text-gray-700 px-5 py-2 rounded-lg hover:bg-gray-300 transition">Back</a>
+          </div>
+        </div>
+      `;
+    }
+    window.onload = loadCreation;
+  </script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <header class="bg-white shadow mb-6">
+    <div class="max-w-6xl mx-auto p-4 flex items-center justify-between">
+      <h1 class="text-2xl font-bold text-red-600">Roblox Creations Hub</h1>
+      <a href="index.html" class="text-gray-600 hover:text-red-600 transition">Home</a>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto p-4" id="content">
+    <p class="text-center text-gray-500">Loading...</p>
+  </main>
+
+  <footer class="text-center text-gray-500 text-sm p-4 mt-6">
+    © 2025 Roblox Creations Hub • Powered by TechFlow
+  </footer>
+</body>
+</html>
