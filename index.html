@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roblox Creations Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    async function loadCreations() {
+      const res = await fetch('creations.json');
+      const creations = await res.json();
+      const container = document.getElementById('creations');
+      creations.forEach(c => {
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded-2xl shadow hover:shadow-lg p-4 transition';
+        card.innerHTML = `
+          <img src="${c.thumbnail}" alt="${c.name}" class="rounded-xl mb-3">
+          <h2 class="text-xl font-bold">${c.name}</h2>
+          <p class="text-gray-600 text-sm mb-2">by ${c.creator}</p>
+          <p class="text-gray-500 text-sm line-clamp-2 mb-3">${c.description}</p>
+          <a href="creation.html?id=${c.id}" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition">View Creation</a>
+        `;
+        container.appendChild(card);
+      });
+    }
+    window.onload = loadCreations;
+  </script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <header class="bg-white shadow mb-6">
+    <div class="max-w-6xl mx-auto p-4 flex items-center justify-between">
+      <h1 class="text-2xl font-bold text-red-600">Roblox Creations Hub</h1>
+      <a href="#" class="text-gray-600 hover:text-red-600 transition">Submit Creation</a>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto p-4">
+    <h2 class="text-2xl font-semibold mb-4">Latest Creations</h2>
+    <div id="creations" class="grid md:grid-cols-3 sm:grid-cols-2 gap-6"></div>
+  </main>
+
+  <footer class="text-center text-gray-500 text-sm p-4 mt-6">
+    © 2025 Roblox Creations Hub • Powered by TechFlow
+  </footer>
+</body>
+</html>
